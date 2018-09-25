@@ -13,6 +13,7 @@ import java.util.List;
 public class Region {
     private int regionId;
     private String regionName;
+    private Country country;
     private List<Country> countries;
 
     public Region() {
@@ -28,6 +29,21 @@ public class Region {
         this.regionName = regionName;
         this.countries = countries;
     }
+
+    public Region(int regionId, String regionName, Country country) {
+        this.regionId = regionId;
+        this.regionName = regionName;
+        this.country = country;
+    }
+
+    public Region(int regionId, String regionName, Country country, List<Country> countries) {
+        this.regionId = regionId;
+        this.regionName = regionName;
+        this.country = country;
+        this.countries = countries;
+    }
+    
+    
     
     /**
      * @return the regionID
@@ -69,6 +85,20 @@ public class Region {
      */
     public void setCountries(List<Country> countries) {
         this.countries = countries;
+    }
+
+    /**
+     * @return the country
+     */
+    public Country getCountry() {
+        return country;
+    }
+
+    /**
+     * @param country the country to set
+     */
+    public void setCountry(Country country) {
+        this.country = country;
     }
     
     

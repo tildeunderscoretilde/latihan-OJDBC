@@ -19,6 +19,11 @@ public class Cetak {
 //            System.out.println(region.getRegionId() + " - " + region.getRegionName());
 //        }
         
+        RegionDAO rdaoall = new RegionDAO(new Koneksi().getKoneksi());
+        for (Region region : rdaoall.getRegions()) {
+            System.out.println(region.getRegionId() + " - " + region.getRegionName() + " - " + region.getCountry().getCountryId() + " - " + region.getCountry().getCountryName());
+        }
+        
 //        RegionDAO rdaoid = new RegionDAO(new Koneksi().getKoneksi());
 //        for (Region region : rdaoid.getById()) {
 //            System.out.println(region.getRegionId() + " - " + region.getRegionName());
@@ -42,6 +47,11 @@ public class Cetak {
 //        CountryDAO cdaosr = new CountryDAO(new Koneksi().getKoneksi());
 //        for (Country country : cdaosr.getBySearch()) {
 //            System.out.println(country.getCountryId() + " - " + country.getCountryName());
+//        }
+        
+//        CountryDAO cdaoall = new CountryDAO(new Koneksi().getKoneksi());
+//        for (Country country : cdaoall.getCountries()) {
+//            System.out.println(country.getCountryId() + " - " + country.getCountryName() + " - " + country.getRegion().getRegionId());
 //        }
     }
 }

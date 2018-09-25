@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entitas.Country;
 import entitas.Region;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -134,6 +135,34 @@ public class RegionDAO {
     }
     
     /**
+     * Function untuk menjalankan segala input query (versi gabung country)
+     * @param query input query yang akan dijalankan
+     * @return mengembalikan nilai tabel
+     */
+    public List<Region> getData2(String query){
+        List<Region> regions = new ArrayList();
+        try {
+            PreparedStatement statement = koneksi.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                int regionId = resultSet.getInt(1);
+                String regionName = resultSet.getString(2);             
+                String countryId = resultSet.getString(3);
+                String countryName = resultSet.getString(4);
+                
+                Country country = new Country(countryId, countryName);
+                Region region = new Region(regionId, regionName, country);
+                                
+                regions.add(region);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return regions;
+    }
+    
+    /**
      * Function untuk menampilkan semua data tabel
      * @return mengembalikan query yang ingin dijalankan
      */
@@ -168,6 +197,11 @@ public class RegionDAO {
      */
     public List<Region> search(String category, String cari){
         return this.getData("SELECT * FROM REGEXP_LIKE(" + category + ", " + cari + " ORDER BY 1");
+    }
+    
+    
+    public List<Region> getRegions(){
+        return this.getData2("SELECT * from regions NATURAL JOIN countries ORDER BY 1");
     }
     
 }

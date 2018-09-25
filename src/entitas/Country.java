@@ -12,7 +12,6 @@ package entitas;
 public class Country {
     private String countryId;
     private String countryName;
-    private String regionId;
     private Region region;
 
     public Country() {
@@ -28,13 +27,6 @@ public class Country {
         this.countryName = countryName;
         this.region = region;
     }
-
-    public Country(String countryId, String countryName, String regionId, Region region) {
-        this.countryId = countryId;
-        this.countryName = countryName;
-        this.regionId = regionId;
-        this.region = region;
-    }
     
     
     
@@ -46,7 +38,7 @@ public class Country {
     }
 
     /**
-     * @param countryId the countryID to set
+     * @param countryID the countryID to set
      */
     public void setCountryId(String countryId) {
         this.countryId = countryId;
@@ -82,20 +74,6 @@ public class Country {
 
     public void add(Country country) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * @return the regionId
-     */
-    public String getRegionId() {
-        return regionId;
-    }
-
-    /**
-     * @param regionId the regionId to set
-     */
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
     }
     
     

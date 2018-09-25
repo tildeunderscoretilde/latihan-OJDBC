@@ -6,6 +6,7 @@
 package dao;
 
 import entitas.Country;
+import entitas.Region;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -124,8 +125,35 @@ public class CountryDAO {
                 Country country = new Country();
                 country.setCountryId(resultSet.getString("country_id"));
                 country.setCountryName(resultSet.getString("country_name"));
-                country.setRegionId(resultSet.getString("region_id"));
                 country.add(country);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return countries;
+    }
+    
+    /**
+     * Function untuk menjalankan segala input query (versi gabung region)
+     * @param query input query yang akan dijalankan
+     * @return mengembalikan nilai tabel
+     */
+    public List<Country> getData2(String query){
+        List<Country> countries = new ArrayList();
+        try {
+            PreparedStatement statement = koneksi.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                String countryId = resultSet.getString(2);
+                String countryName = resultSet.getString(3);             
+                int regionId = resultSet.getInt(1);
+                String regionName = resultSet.getString(4);
+                
+                Region region = new Region(regionId, regionName);
+                Country country = new Country(countryId, countryName, region);
+                
+                countries.add(country);
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -145,7 +173,7 @@ public class CountryDAO {
     /**
      * Function untuk mencari data berdasarkan ID
      * @param countryId id ke berapa / ID dari data tersebut
-     * @return 
+     * @return mengembalikan query yang ingin dijalankan
      */
     public List<Country> getById(String countryId){
         return this.getData("SELECT * FROM COUNTRIES WHERE REGEXP_LIKE(COUNTRY_ID, '" + countryId + "', 'i'");
@@ -154,7 +182,7 @@ public class CountryDAO {
     /**
      * Function untuk mencari data berdasarkan ID dengan menjalankan getById
      * @param countryId id dari country tersebut
-     * @return 
+     * @return mengembalikan query yang ingin dijalankan
      */
     public Country getByIds(String countryId){
         return (Country) this.getById(countryId).get(0);
@@ -163,11 +191,19 @@ public class CountryDAO {
     
     /**
      * Function untuk menjalankan query yang ingin dicari
-     * @param category tabel yang ingin dicari
-     * @param cari data apa yang ingin dicari
-     * @return 
+     * @param category kolom yang ingin dicari
+     * @param cari data apa yang ingin dicari (id-nya kah, namanya kah)
+     * @return mengembalikan query yang ingin dijalankan
      */
     public List<Country> search(String category, String cari){
-        return this.getData("SELECT * FROM REGEXP_LIKE(" + category + ", " + cari + " ORDER BY 1");
+        return this.getData("SELECT * FROM COUNTRIES REGEXP_LIKE(" + category + ", " + cari + " ORDER BY 1");
+    }
+    
+    /**
+     * Function untuk menjalankan query untuk menampilkan gabungan tabel countries dengan reions
+     * @return mengembalikan query yang ingin dijalankan
+     */
+    public List<Country> getCountries(){
+        return this.getData2("SELECT * from countries NATURAL JOIN regions ORDER BY 1");
     }
 }
