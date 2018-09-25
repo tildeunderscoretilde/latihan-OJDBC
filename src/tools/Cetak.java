@@ -20,8 +20,18 @@ public class Cetak {
 //        }
         
         RegionDAO rdaoall = new RegionDAO(new Koneksi().getKoneksi());
+        int temp = 0;
         for (Region region : rdaoall.getRegions()) {
-            System.out.println(region.getRegionId() + " - " + region.getRegionName() + " - " + region.getCountry().getCountryId() + " - " + region.getCountry().getCountryName());
+            int id = region.getRegionId();
+            if(id != temp) 
+            {
+                System.out.println("\n" + id + ".  " + region.getRegionName() + " -> ");
+                temp = id;
+            }
+            else{
+            System.out.println(region.getCountry().getCountryId() + " - " 
+                    + region.getCountry().getCountryName());
+            }
         }
         
 //        RegionDAO rdaoid = new RegionDAO(new Koneksi().getKoneksi());
